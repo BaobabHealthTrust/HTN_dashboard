@@ -21,7 +21,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"><%= app_name %></a> 
+                <a class="navbar-brand" href="/"><%= app_name %></a> 
             </div>
   <div style="color: white; padding: 15px 50px 5px 50px; float: right; font-size: 16px;"> 
     <%unless User.current.blank?%>Login as : <%= User.current.username %><%end%>
@@ -42,10 +42,10 @@
                         <a href="#"><i class="fa fa-bar-chart-o fa-3x"></i> Reports<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="#">Patients not screened</a>
+                                <a href="/not_screened">Patients not screened</a>
                             </li>
                             <li>
-                                <a href="#">Screened (outside threshold)</a>
+                                <a href="/outside_threshold">Screened (outside threshold)</a>
                             </li>
                         </ul>
                       </li>  

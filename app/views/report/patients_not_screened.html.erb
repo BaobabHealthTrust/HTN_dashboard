@@ -1,0 +1,211 @@
+<%=javascript_include_tag "DataTables/jquery" %>                          
+<%=javascript_include_tag "DataTables/prototype" %>                          
+<script>jQuery.noConflict();</script>
+<%=javascript_include_tag "DataTables/jquery.dataTables.min" %>
+
+<%#= stylesheet_link_tag "DataTables/demo_table" %>                                         
+<%= stylesheet_link_tag "DataTables/demo_table_jui" %>                                     
+<%= stylesheet_link_tag "DataTables/jquery.dataTables" %>                                     
+<%#= stylesheet_link_tag "demo_page" %>
+
+<style>
+.dataTables_length {
+  text-align: left;
+}
+
+.centered{
+  border: 1px solid #eeeeee;
+  display: inline-block;
+  min-width: 60%;
+  padding: 20px;
+}
+
+.asset_search_div {
+  text-align: right;
+}
+
+.search-container {
+  padding-bottom: 50px !important;
+}
+
+#results tr:hover td {
+  background-color: lightblue;
+  color: white;
+  cursor: pointer;
+}
+
+.paginate_button current {
+  width: 100px;
+}
+
+.search-container input {
+  height: 40px;
+}
+
+#results td {
+  text-align: left;
+}
+
+#search_results_info {
+  text-align: left;
+}
+
+</style>
+
+<script>
+
+  var dataTable = null;
+
+  function dataT(){          
+    dataTable = jQuery('#search_results').dataTable();                                                  
+  }
+
+  function addRows(data) {
+    patients = JSON.parse(data);
+    //counter = 0;
+    for (var i = 0; i < patients.length; i++) {
+      first_name = patients[i]['given_name'];
+      last_name = patients[i]['family_name'];
+      gender = patients[i]["gender"];
+      birthdate = patients[i]["birthdate"];
+      age = patients[i]["age"];
+      patient_id = patients[i]["patient_id"];
+      vitals_present = patients[i]["vitals_present"];
+      visit_type = patients[i]["visit_type"];
+      dataTable.api().row.add([patient_id, first_name, last_name, gender, birthdate, age,vitals_present,visit_type]).draw();
+
+      //var newRow = dataTable.fnSettings().aoData[counter].nTr;
+      //url = "showPatDashboard('/patient_dashboard/" + patient_id + "/0')";
+      //newRow.setAttribute('onclick',url);
+      //counter++
+    }
+  }
+  
+  function getData(start_date, end_date) {                                                       
+                                                                                
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari  
+        xmlhttp=new XMLHttpRequest();                                             
+      }else{// code for IE6, IE5                                                  
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");                           
+      }                                                                           
+      xmlhttp.onreadystatechange=function() {                                     
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {                       
+          var results = xmlhttp.responseText;                                     
+          if(results == 'undefined' || results == '' || results == '"not validate"') {                           
+            return;                                                               
+          }else{                                                                  
+            dataTable.fnClearTable();
+            addRows(results);                                                           
+          }                                                                       
+        }                                                                         
+      }                                                                           
+      xmlhttp.open("GET","/report/get_patients_not_screened?start_date="+start_date+"&end_date="+end_date,true);           
+      xmlhttp.send();                                                             
+    } 
+ 
+    function runReport() {
+      start_date = document.getElementById('start_date').value;
+      end_date = document.getElementById('end_date').value;
+
+      getData(start_date,end_date);
+    }
+        
+</script>
+
+
+<div class="search-container">
+
+    <!-- start -->
+
+<div class="page-header">
+  <h4 style="text-align:left;width: 100%; color: #009384;
+      font-size: 1.2em;"><%=controller.action_name.titleize%></h4>
+  <p>
+    <table>
+      <tr>
+        <td>Start date:&nbsp;<input type='text' name='start_date' id='start_date' /></td>
+        <td>End date:&nbsp;<input type='text' name='end_date' id='end_date' /></td>
+        <td><input onclick="runReport();" type='button' class='btn-primary' value = "Search" /></td>
+      </tr>
+    </table>
+  </p>  
+</div>
+<section id='modals'>                                              
+  <table id="search_results" class="table table-striped table-bordered table-condensed">
+  <thead>                                                                       
+  <tr id = 'table_head'>                                                        
+    <th id="th1" style="width:10px;">Identifier</th>                           
+    <th id="th3" style="width:200px;">First name</th>                           
+    <th id="th4" style="width:200px;">Last name</th>                            
+    <th id="th5" style="width:5px;">Gender</th>                          
+    <th id="th5" style="width:10px;">Birthdate</th>                          
+    <th id="th8" style="width:20px;">Age</th>                                  
+    <th id="th8" style="width:70px;">Other vitals corrected</th>                                  
+    <th id="th8" style="width:50px;">Visit type</th>                                  
+  </tr>                                                                         
+  </thead>                                                                      
+  <tbody id='results'>                                                          
+    <%(@patients || []).each do |patient| %>                                    
+    <tr>                                                                       
+      <td><%=patient.patient_id%></td>                                    
+      <td><%=patient.given_name%></td>                                            
+      <td><%=patient.family_name%></td>                                    
+      <td><%=patient.gender%></td>                                    
+      <td><%=patient.birthdate.to_date.strftime('%d-%b-%Y') rescue 'N/A'%></td>                                    
+      <td><%=patient.age%></td>                                    
+      <td><%=patient.vitals_present%></td>                                    
+      <td><%=patient.visit_type%></td>                                    
+    </tr>                                                                       
+    <%end%>                                                                     
+  </tbody>                                                                      
+  </table>
+</section> 
+
+
+<%=stylesheet_link_tag "autoComplete/datepicker-jquery-ui" %>
+
+<script>                                                                        
+  dataT();                   
+  
+  function showPatDashboard(patient_dashboard_url) {
+    document.location = patient_dashboard_url;
+  }                                                   
+</script>
+
+
+<%=stylesheet_link_tag "autoComplete/jquery-ui" %>
+<%=javascript_include_tag "autoComplete/jquery-1.10.2"%>
+<%=javascript_include_tag "autoComplete/jquery-ui"%>
+
+<script>
+
+
+  function activeDates() {
+    $(function() {
+      $( "#start_date" ).datepicker({ dateFormat: 'dd-mm-yy' });
+    });
+    
+   $(function() {
+      $( "#end_date" ).datepicker({ dateFormat: 'dd-mm-yy' });
+    });
+  }
+
+  activeDates();
+</script>
+    <!-- end -->
+
+
+</div>
+
+<style>
+#table_head th {
+  background-color:#e6e6e6;
+  color: #555;
+  font-weight: normal;
+  font-family: "OpenSansBold";
+  text-align: left;
+  word-break: normal;
+
+}
+
+</style>

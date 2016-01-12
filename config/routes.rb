@@ -43,5 +43,12 @@ ActionController::Routing::Routes.draw do |map|
   ########################## user ################################################
 	map.user  '/login', :controller => 'user', :action => 'login'
   ########################## user end ################################################
+
+  ########################## reports ################################################
+	map.user  '/not_screened', :controller => 'report', :action => 'patients_not_screened'
+	map.user  '/outside_threshold', :controller => 'report', :action => 'patients_screened_outside_threshold'
+  ########################## reports end ################################################
+
+
   map.root :controller => 'home'
 end

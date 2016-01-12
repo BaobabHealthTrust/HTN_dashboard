@@ -1,0 +1,72 @@
+
+ul, ol, li {
+    margin-bottom: 2px;
+    padding: 0;
+}
+
+ul {
+    list-style: outside none none;
+}
+
+ul {
+  list-style: outside none none;
+}
+ 
+#display-encounter-diagnoses-container {
+    font-size: 0.9em;
+}
+
+/* div ...................................... */
+
+.diagnosis {
+    background: #006191 none repeat scroll 0 0;
+    border-left: 8px solid #006191;
+    border-radius: 3px;
+    color: white;
+    display: inline-block;
+    padding: 5px 10px;
+    width: 90%
+}
+
+/* end div .................................. */
+
+
+.matched-name {
+  display: block;
+  font-size: 1em;
+}
+
+strong {
+  font-family: "OpenSansBold";
+  font-weight: normal;
+  color: white;
+}
+
+.actions {
+  float: right;
+  font-size: 0.8em;
+  margin-top: 5px;
+}
+
+.code {
+  float: right;
+  font-family: "OpenSansLight";
+  font-size: 0.9em;
+}
+
+/*........... icon delete ............ */
+
+.icon-remove  {
+  display: inline-block;
+  text-decoration: inherit;
+}
+
+.icon-div {
+  float: right;
+  width: 9%;
+  text-align: center;
+  color: #bbbbbb;
+  cursor: pointer;
+}
+
+/* ... end ----------------------------- */

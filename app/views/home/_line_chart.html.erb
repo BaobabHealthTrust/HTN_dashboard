@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Highcharts Example</title>
+
+    <%= javascript_include_tag "/javascripts/highcharts/jquery.min.js" %>
+		<style type="text/css">
+      ${demo.css}
+		</style>
+		<script type="text/javascript">
+
+
+  $(function () {
+    $('#container').highcharts({
+        title: {
+            text: 'Past seven days readings',
+            x: -20 //center
+        },
+        subtitle: {
+            text: "<%= (Date.today - 1.week).strftime('%d, %b')%> : <%= (Date.today - 1.day).strftime('%d, %b')%> ",
+            x: -20
+        },
+        xAxis: {
+            categories: getDays()
+        },
+        yAxis: {
+            title: {
+                text: 'Number of Patients'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: ''
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Total No.of patients',
+            data: passReceptionTotal()
+        }, {
+            name: 'Screened',
+            data: totalScreened()
+        }]
+    });
+});
+
+  function passReceptionTotal() {
+    return [<%=@chart_data_total[:day_seven][:count]%>,
+      <%=@chart_data_total[:day_six][:count]%>,
+      <%=@chart_data_total[:day_five][:count]%>,
+      <%=@chart_data_total[:day_four][:count]%>,
+      <%=@chart_data_total[:day_three][:count]%>,
+      <%=@chart_data_total[:day_two][:count]%>,
+      <%=@chart_data_total[:day_one][:count]%>
+    ];
+  }
+
+
+  function totalScreened() {
+    return [<%=@chart_data_total_screened[:day_seven][:count]%>,
+      <%=@chart_data_total_screened[:day_six][:count]%>,
+      <%=@chart_data_total_screened[:day_five][:count]%>,
+      <%=@chart_data_total_screened[:day_four][:count]%>,
+      <%=@chart_data_total_screened[:day_three][:count]%>,
+      <%=@chart_data_total_screened[:day_two][:count]%>,
+      <%=@chart_data_total_screened[:day_one][:count]%>
+    ];
+  }
+
+
+  function getDays() {
+    days = []
+    <%@chart_data_total.values.map{|x,y|x.values.last}.sort.map do|x|%>
+      days.push("<%=x.strftime('%a %d')%>");
+    <%end%>
+    return days;
+  }
+
+		</script>
+	</head>
+	<body>
+  <%= javascript_include_tag "/javascripts/highcharts/highcharts" %>
+  <%= javascript_include_tag "/javascripts/highcharts/exporting" %>
+<!--script src="../../js/highcharts.js"></script>
+<script src="../../js/modules/exporting.js"></script-->
+
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+	</body>
+</html>

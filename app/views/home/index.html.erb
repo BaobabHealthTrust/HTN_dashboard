@@ -1,0 +1,78 @@
+<style>
+.noti-box {
+}
+
+</style>
+
+
+<div class="row">
+  <div class="col-md-12">
+   <h2>Admin Dashboard</h2>   
+   <h5><%=Location.current_health_center.name%>
+   &nbsp;(Patients eligible to be tested that came to the clinic on:&nbsp;<%=Date.today.strftime('%a %d %b %Y')%>). </h5>
+  </div>
+</div>              
+<!-- /. ROW  -->
+<hr />
+<div class="row">
+  <div class="col-md-3 col-sm-6 col-xs-6">           
+    <div class="panel panel-back noti-box">
+      <span class="icon-box bg-color-brown set-icon">
+        <!--i class="fa fa-envelope-o"></i-->
+      </span>
+      <div class="text-box" >
+        <p class="main-text"><%=@indicators[:passed_reception]%></p>
+        <p class="text-muted">Passed reception</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-3 col-sm-6 col-xs-6">           
+    <div class="panel panel-back noti-box">
+      <span class="icon-box bg-color-blue set-icon">
+        <i class="fa fa-bars"></i>
+      </span>
+      <div class="text-box" >
+        <p class="main-text"><%=@indicators[:screened]%></p>
+        <p class="text-muted">Screened</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 col-sm-6 col-xs-6">           
+    <div class="panel panel-back noti-box">
+      <span class="icon-box bg-color-red set-icon">
+        <!--i class="fa fa-bell-o"></i-->
+      </span>
+      <div class="text-box" >
+        <p class="main-text"><%=@indicators[:uncontrolled]%></p>
+        <p class="text-muted">Uncontrolled</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-3 col-sm-6 col-xs-6">           
+    <div class="panel panel-back noti-box">
+      <span class="icon-box bg-color-green set-icon">
+        <!--i class="fa fa-rocket"></i-->
+      </span>
+      <div class="text-box" >
+        <p class="main-text"><%=@indicators[:controlled]%></p>
+        <p class="text-muted">Controlled</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- chart starts -->
+
+<hr />
+<div class="row">
+  <div class="col-md-12 col-sm-6 col-xs-6">           
+    <div class="panel panel-back">
+      <%= render :partial => 'line_chart'%>
+    </div>
+  </div>
+</div>
+
+<!-- chart ends -->

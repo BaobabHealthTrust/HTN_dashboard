@@ -70,9 +70,9 @@
       birthdate = patients[i]["birthdate"];
       age = patients[i]["age"];
       patient_id = patients[i]["patient_id"];
-      vitals_present = patients[i]["vitals_present"];
+      skipped_vitals = patients[i]["skipped_vitals"];
       visit_type = patients[i]["visit_type"];
-      dataTable.api().row.add([patient_id, first_name, last_name, gender, birthdate, age,vitals_present,visit_type]).draw();
+      dataTable.api().row.add([patient_id, first_name, last_name, gender, birthdate, age,skipped_vitals,visit_type]).draw();
 
       //var newRow = dataTable.fnSettings().aoData[counter].nTr;
       //url = "showPatDashboard('/patient_dashboard/" + patient_id + "/0')";
@@ -140,7 +140,7 @@
     <th id="th5" style="width:5px;">Gender</th>                          
     <th id="th5" style="width:10px;">Birthdate</th>                          
     <th id="th8" style="width:20px;">Age</th>                                  
-    <th id="th8" style="width:70px;">Other vitals corrected</th>                                  
+    <th id="th8" style="width:70px;">Skipped vitals</th>                                  
     <th id="th8" style="width:50px;">Visit type</th>                                  
   </tr>                                                                         
   </thead>                                                                      
@@ -153,7 +153,7 @@
       <td><%=patient.gender%></td>                                    
       <td><%=patient.birthdate.to_date.strftime('%d-%b-%Y') rescue 'N/A'%></td>                                    
       <td><%=patient.age%></td>                                    
-      <td><%=patient.vitals_present%></td>                                    
+      <td><%=patient.skipped_vitals%></td>                                    
       <td><%=patient.visit_type%></td>                                    
     </tr>                                                                       
     <%end%>                                                                     
